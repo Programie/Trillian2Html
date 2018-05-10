@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Conversation between {{ ownName }} and {{ contactName }}</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"/>
+
+        <style type="text/css">
+            .no-wrap {
+                white-space: nowrap;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1 class="page-header">Conversation between {{ ownName }} and {{ contactName }}</h1>
+
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if not previousLog %}disabled{% endif %}"><a class="page-link" href="{{ previousLog }}">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href=".">Overview</a></li>
+                    <li class="page-item {% if not nextLog %}disabled{% endif %}"><a class="page-link" href="{{ nextLog }}">Next</a></li>
+                </ul>
+            </nav>
+
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>User</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for message in messages %}
+                        <tr>
+                            <td class="no-wrap">{{ message.date.format("r") }}</td>
+                            <td class="no-wrap">{{ message.user }}</td>
+                            <td>{{ message.text|raw }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if not previousLog %}disabled{% endif %}"><a class="page-link" href="{{ previousLog }}">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href=".">Overview</a></li>
+                    <li class="page-item {% if not nextLog %}disabled{% endif %}"><a class="page-link" href="{{ nextLog }}">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+    </body>
+</html>
