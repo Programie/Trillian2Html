@@ -1,3 +1,4 @@
+#! /usr/bin/env php
 <?php
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
