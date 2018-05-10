@@ -70,6 +70,8 @@ foreach ($perContactFiles as $contactName => $files) {
             $type = $message->getAttribute("type");
             $text = rawurldecode($message->getAttribute("text"));
 
+            $messageId = sha1(sprintf("%d/%s/%s", $timestamp, $type, $text));
+
             $date = new DateTime;
 
             $date->setTimestamp($timestamp);
@@ -89,9 +91,14 @@ foreach ($perContactFiles as $contactName => $files) {
             $text = str_replace("\n", "<br/>\n", $text);
 
             // Inline images
-            $text = preg_replace("/(http|https):\/\/(ft|media).trillian.im\/([^ ]+)/", '<a href="${1}://${2}.trillian.im/${3}" target="_blank"><img src="${1}://${2}.trillian.im/${3}" width="200"/></a>' ,$text);
+            $text = preg_replace("/(http|https):\/\/(ft|media).trillian.im\/([^ ]+)/", '<a href="${1}://${2}.trillian.im/${3}" target="_blank"><img src="${1}://${2}.trillian.im/${3}" width="200"/></a>', $text);
 
-            $messages[] = array
+            if (isset($messages[$messageId])) {
+                fwrite(STDERR, sprintf("Skipping duplicate message: %s - %s\n", $date->format("r"), $text));
+                continue;
+            }
+
+            $messages[$messageId] = array
             (
                 "date" => $date,
                 "user" => $user,
@@ -116,7 +123,7 @@ foreach ($perContactFiles as $contactName => $files) {
             (
                 "ownName" => $ownName,
                 "contactName" => $contactName,
-                "messages" => $messages,
+                "messages" => array_values($messages),
                 "previousLog" => $previousLog,
                 "nextLog" => $nextLog
             ));
