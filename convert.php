@@ -46,7 +46,6 @@ foreach ($finder as $file) {
 
 foreach ($perContactFiles as $contactName => $files) {
     $previousLog = null;
-    $nextLog = null;
 
     /**
      * @var $file SplFileInfo
@@ -114,6 +113,8 @@ foreach ($perContactFiles as $contactName => $files) {
             $nextFile = $files[$fileIndex + 1];
 
             $nextLog = str_replace("/", "-", $nextFile->getRelativePath()) . ".html";
+        } else {
+            $nextLog = null;
         }
 
         $outputFilename = str_replace("/", "-", $file->getRelativePath());
