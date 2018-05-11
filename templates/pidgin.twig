@@ -1,0 +1,4 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Conversation between {{ ownName }} and {{ contactName }}</title></head><body><h3>Conversation between {{ ownName }} and {{ contactName }}</h3>
+{% for message in messages %}<font color="{% if message.type == "incoming_privateMessage" %}#A82F2F{% elseif message.type == "outgoing_privateMessage" %}#16569E{% endif %}"><font size="2">({{ message.date.format("H:i:s") }})</font> <b>{{ message.user }}:</b></font> {{ message.text|raw }}<br/>
+{% endfor %}
+</body></html>
